@@ -1,0 +1,78 @@
+// Barra de info: rango y número de página
+.list-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  color: var(--gray);
+  font-size: 0.9rem;
+
+  &__page {
+    font-weight: 600;
+  }
+}
+
+// Lista de Pokémon: filas clickables tipo tabla
+.pokemon-list {
+  background-color: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+
+  // Cada fila es un <a> que navega al detalle
+  &__item {
+    display: flex;
+    align-items: center;
+    padding: 0.85rem 1.25rem;
+    text-decoration: none;
+    color: var(--dark-text);
+    border-bottom: 1px solid var(--border);
+    transition: background-color 0.15s;
+    gap: 1rem;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background-color: #fef2f2; // Fondo rojo muy suave al hover
+    }
+  }
+
+  &__id {
+    width: 52px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--light-gray);
+    flex-shrink: 0;
+  }
+
+  &__name {
+    flex: 1;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  &__arrow {
+    color: var(--red);
+    font-weight: 700;
+  }
+}
+
+// Controles de paginación centrados
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1rem 0;
+
+  &__info {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--dark-text);
+    min-width: 80px;
+    text-align: center;
+  }
+}

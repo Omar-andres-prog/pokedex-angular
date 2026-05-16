@@ -1,0 +1,187 @@
+.back-btn {
+  margin-bottom: 1.5rem;
+}
+
+// Tarjeta principal del detalle
+.detail-card {
+  background-color: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+
+  // Encabezado: fondo del color del tipo con imagen grande
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem;
+    gap: 1rem;
+  }
+
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  &__id {
+    font-size: 1rem;
+    font-weight: 700;
+    color: rgba(0, 0, 0, 0.4);
+    letter-spacing: 1px;
+  }
+
+  &__name {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--dark-text);
+    letter-spacing: 1px;
+    line-height: 1.1;
+  }
+
+  &__types {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  &__img {
+    width: 180px;
+    height: 180px;
+    object-fit: contain;
+    filter: drop-shadow(4px 8px 12px rgba(0, 0, 0, 0.25));
+  }
+
+  &__body {
+    padding: 1.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+}
+
+// Grid de datos físicos (altura, peso, exp)
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  text-align: center;
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 1rem;
+    background-color: var(--light-bg);
+    border-radius: 8px;
+  }
+
+  &__label {
+    font-size: 0.75rem;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__value {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--dark-text);
+  }
+}
+
+// Sección con título (habilidades, stats)
+.detail-section {
+  &__title {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--red);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--border);
+  }
+}
+
+// Badges de habilidades
+.abilities {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.ability-badge {
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  background-color: #f0f0f0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--dark-text);
+
+  // Las habilidades ocultas tienen un estilo diferente
+  &--hidden {
+    background-color: #e8e0ff;
+    color: #5a3e9b;
+  }
+
+  em {
+    font-style: italic;
+    font-size: 0.75rem;
+    color: var(--gray);
+    margin-left: 0.25rem;
+  }
+}
+
+// Filas de estadísticas con barra de progreso
+.stats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.stat-row {
+  display: grid;
+  grid-template-columns: 80px 40px 1fr;
+  align-items: center;
+  gap: 0.75rem;
+
+  &__name {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  &__value {
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-align: right;
+    color: var(--dark-text);
+  }
+}
+
+// Barra de progreso de la estadística
+.stat-bar {
+  height: 8px;
+  background-color: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+
+  &__fill {
+    height: 100%;
+    border-radius: 4px;
+    // transition: animación suave al cargar la barra
+    transition: width 0.5s ease;
+    min-width: 4px;
+  }
+}
+
+// Botón de acción al final de la vista
+.detail-actions {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 1rem;
+}

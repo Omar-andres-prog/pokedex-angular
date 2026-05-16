@@ -1,0 +1,118 @@
+<div class="container">
+
+  <!-- Botón de volver (navega -1 en el historial del navegador) -->
+  <a routerLink="/dashboard" class="btn btn--ghost back-btn">← Volver</a>
+
+  @if (isLoading()) {
+    <div class="spinner"></div>
+  } @else if (hasError()) {
+    <div class="error-msg">
+      <p>Pokémon no encontrado.</p>
+      <a routerLink="/dashboard" class="btn btn--primary">Ir al Dashboard</a>
+    </div>
+  } @else if (pokemon()) {
+
+    <!-- Usamos pokemon()! (non-null assertion) porque @else if garantiza que no es null -->
+    <div class="detail-card">
+
+      <!-- ── Encabezado con color del tipo principal ──────────────── -->
+      <div class="detail-card__header" [style.background-color]="primaryColor + '33'">
+        <div class="detail-card__meta">
+          <span class="detail-card__id">{{ formattedId }}</span>
+          <h1 class="detail-card__name">{{ pokemon()!.name | titlecase }}</h1>
+
+          <!-- Badges de tipos -->
+          <div class="detail-card__types">
+            @for (typeSlot of pokemon()!.types; track typeSlot.slot) {
+              <span
+                class="type-badge"
+                [style.background-color]="getTypeColor(typeSlot.type.name)"
+              >
+                {{ typeSlot.type.name }}
+              </span>
+            }
+          </div>
+        </div>
+
+        <!-- Imagen oficial del Pokémon -->
+        <img
+          class="detail-card__img"
+          [src]="imageUrl"
+          [alt]="pokemon()!.name"
+        />
+      </div>
+
+      <!-- ── Cuerpo de la tarjeta ─────────────────────────────────── -->
+      <div class="detail-card__body">
+
+        <!-- Datos físicos -->
+        <div class="info-grid">
+          <div class="info-grid__item">
+            <span class="info-grid__label">Altura</span>
+            <span class="info-grid__value">{{ formatHeight(pokemon()!.height) }}</span>
+          </div>
+          <div class="info-grid__item">
+            <span class="info-grid__label">Peso</span>
+            <span class="info-grid__value">{{ formatWeight(pokemon()!.weight) }}</span>
+          </div>
+          <div class="info-grid__item">
+            <span class="info-grid__label">Exp. base</span>
+            <span class="info-grid__value">{{ pokemon()!.base_experience }}</span>
+          </div>
+        </div>
+
+        <!-- Habilidades -->
+        <section class="detail-section">
+          <h2 class="detail-section__title">Habilidades</h2>
+          <div class="abilities">
+            @for (abilitySlot of pokemon()!.abilities; track abilitySlot.slot) {
+              <span class="ability-badge" [class.ability-badge--hidden]="abilitySlot.is_hidden">
+                {{ abilitySlot.ability.name | titlecase }}
+                @if (abilitySlot.is_hidden) {
+                  <em>(oculta)</em>
+                }
+              </span>
+            }
+          </div>
+        </section>
+
+        <!-- Estadísticas base con barras de progreso -->
+        <section class="detail-section">
+          <h2 class="detail-section__title">Estadísticas base</h2>
+          <div class="stats">
+            @for (statSlot of pokemon()!.stats; track statSlot.stat.name) {
+              <div class="stat-row">
+                <span class="stat-row__name">{{ formatStatName(statSlot.stat.name) }}</span>
+                <span class="stat-row__value">{{ statSlot.base_stat }}</span>
+                <!--
+                  [style.width.%]: binding al porcentaje de la barra.
+                  [style.background-color]: color del tipo para coherencia visual.
+                -->
+                <div class="stat-bar">
+                  <div
+                    class="stat-bar__fill"
+                    [style.width.%]="statPercent(statSlot.base_stat)"
+                    [style.background-color]="primaryColor"
+                  ></div>
+                </div>
+              </div>
+            }
+          </div>
+        </section>
+
+      </div><!-- /detail-card__body -->
+    </div><!-- /detail-card -->
+
+    <!-- Acceso directo al comparador -->
+    <div class="detail-actions">
+      <a
+        [routerLink]="['/compare']"
+        [queryParams]="{ a: pokemon()!.name }"
+        class="btn btn--outline"
+      >
+        ⚔ Comparar con otro Pokémon
+      </a>
+    </div>
+
+  }
+</div>

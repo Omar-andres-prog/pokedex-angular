@@ -1,0 +1,39 @@
+<!--
+  [routerLink]: binding dinámico → navega a /detail/25 si pokemon.id es 25.
+  Al hacer clic en la tarjeta completa, el usuario ve el detalle del Pokémon.
+-->
+<a [routerLink]="['/detail', pokemon.id]" class="pokemon-card" [style.border-color]="getTypeColor()">
+
+  <!-- Cabecera con color del tipo principal (ej: rojo para fire, azul para water) -->
+  <div class="pokemon-card__header" [style.background-color]="getTypeColor() + '33'">
+    <span class="pokemon-card__id">{{ formattedId }}</span>
+    <!--
+      loading="lazy": el navegador no carga la imagen hasta que está en pantalla.
+      Importante para rendimiento cuando hay muchas tarjetas.
+    -->
+    <img
+      class="pokemon-card__img"
+      [src]="imageUrl"
+      [alt]="pokemon.name"
+      loading="lazy"
+    />
+  </div>
+
+  <div class="pokemon-card__body">
+    <!-- titlecase pipe: convierte 'bulbasaur' → 'Bulbasaur' -->
+    <h3 class="pokemon-card__name">{{ pokemon.name | titlecase }}</h3>
+
+    <!-- @for: nuevo control flow de Angular (reemplaza *ngFor) -->
+    <div class="pokemon-card__types">
+      @for (typeSlot of pokemon.types; track typeSlot.slot) {
+        <span
+          class="type-badge"
+          [style.background-color]="getTypeColor()"
+        >
+          {{ typeSlot.type.name }}
+        </span>
+      }
+    </div>
+  </div>
+
+</a>

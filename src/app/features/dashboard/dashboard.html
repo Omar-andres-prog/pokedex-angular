@@ -1,0 +1,84 @@
+<div class="container">
+  <h1 class="page-title">Dashboard</h1>
+
+  <!-- ── Buscador ─────────────────────────────────────────────── -->
+  <!--
+    (ngSubmit): evento del formulario al pulsar Enter o el botón Submit.
+    #searchForm="ngForm": referencia local al FormGroup para poder validarlo.
+  -->
+  <form class="search-bar" (ngSubmit)="onSearch()" #searchForm="ngForm">
+    <input
+      class="search-bar__input"
+      type="text"
+      placeholder="Buscar Pokémon por nombre exacto... (ej: pikachu)"
+      [(ngModel)]="searchTerm"
+      name="searchTerm"
+      autocomplete="off"
+    />
+    <!-- [disabled]: binding dinámico que deshabilita el botón mientras busca -->
+    <button class="btn btn--primary" type="submit" [disabled]="isSearching()">
+      @if (isSearching()) { Buscando... } @else { Buscar }
+    </button>
+    @if (searchResult() || searchError()) {
+      <button class="btn btn--ghost" type="button" (click)="clearSearch()">
+        ✕ Limpiar
+      </button>
+    }
+  </form>
+
+  <!-- ── Resultado de la búsqueda ──────────────────────────────── -->
+  <!--
+    @if: nuevo control flow de Angular (equivalente al antiguo *ngIf).
+    Evalúa la condición y muestra el bloque si es verdadera.
+  -->
+  @if (searchError()) {
+    <div class="error-msg search-error">
+      <p>{{ searchError() }}</p>
+    </div>
+  }
+
+  @if (searchResult()) {
+    <div class="search-result">
+      <h2 class="search-result__title">Resultado de búsqueda</h2>
+      <!--
+        La expresión searchResult() devuelve PokemonDetail | null.
+        El @if garantiza que no es null dentro del bloque,
+        pero necesitamos el operador ! (non-null assertion) para TypeScript.
+      -->
+      <app-pokemon-card [pokemon]="searchResult()!" />
+    </div>
+  }
+
+  <!-- ── Grid de Pokémon aleatorios ──────────────────────────────── -->
+  <div class="dashboard-header">
+    <h2 class="dashboard-header__subtitle">
+      10 Pokémon aleatorios
+    </h2>
+    <!-- (click): binding de evento de clic → llama al método del componente -->
+    <button class="btn btn--outline" (click)="loadRandomPokemons()" [disabled]="isLoading()">
+      ↻ Recargar
+    </button>
+  </div>
+
+  @if (isLoading()) {
+    <!-- Spinner mientras se cargan los Pokémon (ver styles.scss) -->
+    <div class="spinner"></div>
+  } @else if (hasError()) {
+    <div class="error-msg">
+      <p>Error al cargar los Pokémon. ¿Tienes conexión a internet?</p>
+      <button class="btn btn--primary" (click)="loadRandomPokemons()">
+        Reintentar
+      </button>
+    </div>
+  } @else {
+    <!--
+      @for: nuevo control flow (reemplaza *ngFor).
+      track: propiedad única para que Angular optimice el DOM (como el antiguo trackBy).
+    -->
+    <div class="pokemon-grid">
+      @for (pokemon of pokemons(); track pokemon.id) {
+        <app-pokemon-card [pokemon]="pokemon" />
+      }
+    </div>
+  }
+</div>

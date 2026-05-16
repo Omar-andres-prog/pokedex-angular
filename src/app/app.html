@@ -1,0 +1,34 @@
+<!-- Navbar fijo en la parte superior -->
+<header class="navbar">
+  <div class="navbar__brand">
+    <!-- Logo decorativo inspirado en la Pokédex original -->
+    <div class="navbar__pokeball">
+      <span class="navbar__dot"></span>
+    </div>
+    <span class="navbar__title">POKÉDEX</span>
+  </div>
+
+  <nav class="navbar__links">
+    <!--
+      routerLink: navega a la ruta sin recargar la página (Single Page Application).
+      routerLinkActive: añade la clase 'is-active' cuando la URL coincide con el enlace.
+    -->
+    <a routerLink="/dashboard" routerLinkActive="is-active" class="navbar__link">
+      Dashboard
+    </a>
+    <a routerLink="/list" routerLinkActive="is-active" class="navbar__link">
+      Listado
+    </a>
+    <a routerLink="/compare" routerLinkActive="is-active" class="navbar__link">
+      Comparar ★
+    </a>
+  </nav>
+</header>
+
+<!--
+  <router-outlet> es el "hueco" donde Angular inserta dinámicamente
+  el componente que corresponde a la ruta activa en ese momento.
+-->
+<main class="main-content">
+  <router-outlet />
+</main>

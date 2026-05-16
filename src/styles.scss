@@ -1,0 +1,183 @@
+// ──────────────────────────────────────────────────────────────
+// Estilos globales de la Pokédex
+// Fuente retro y variables CSS se definen aquí para toda la app
+// ──────────────────────────────────────────────────────────────
+
+// Fuente retro opcional para el logo (carga desde Google Fonts)
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+// Reset básico: elimina márgenes y padding por defecto del navegador
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+// Variables CSS globales (Custom Properties)
+// Se acceden con var(--nombre) en cualquier componente
+:root {
+  --red: #cc0000;         // Rojo Pokédex
+  --dark-red: #990000;   // Rojo oscuro para hover/bordes
+  --light-bg: #f5f5f5;   // Fondo general de la app
+  --white: #ffffff;
+  --dark-text: #1a1a1a;
+  --gray: #666666;
+  --light-gray: #999999;
+  --border: #e0e0e0;
+  --radius: 12px;         // Border-radius estándar para tarjetas
+  --shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+body {
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--light-bg);
+  color: var(--dark-text);
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+// ── Utilidades reutilizables ──────────────────────────────────
+
+// Contenedor centrado con ancho máximo
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+// Título de sección con acento rojo
+.page-title {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--red);
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border-bottom: 3px solid var(--red);
+  padding-bottom: 0.5rem;
+}
+
+// ── Spinner de carga ──────────────────────────────────────────
+// Pseudo-elemento ::after que gira con CSS animation
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem;
+
+  &::after {
+    content: '';
+    width: 48px;
+    height: 48px;
+    border: 4px solid var(--border);
+    border-top-color: var(--red);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// ── Mensaje de error ──────────────────────────────────────────
+.error-msg {
+  text-align: center;
+  color: var(--red);
+  padding: 3rem 2rem;
+  font-weight: 600;
+  font-size: 1rem;
+
+  p {
+    margin-bottom: 1rem;
+  }
+}
+
+// ── Grid de tarjetas Pokémon ──────────────────────────────────
+// auto-fill: crea tantas columnas como quepan
+// minmax(150px, 1fr): mínimo 150px, máximo igual espacio
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+  gap: 1.25rem;
+}
+
+// ── Botones reutilizables ─────────────────────────────────────
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1.4rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    transform 0.1s,
+    box-shadow 0.2s;
+  text-decoration: none;
+  white-space: nowrap;
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  // Botón primario rojo
+  &--primary {
+    background-color: var(--red);
+    color: white;
+
+    &:hover:not(:disabled) {
+      background-color: var(--dark-red);
+      box-shadow: 0 4px 12px rgba(204, 0, 0, 0.35);
+    }
+  }
+
+  // Botón secundario con solo borde
+  &--outline {
+    background-color: transparent;
+    color: var(--red);
+    border: 2px solid var(--red);
+
+    &:hover:not(:disabled) {
+      background-color: var(--red);
+      color: white;
+    }
+  }
+
+  // Botón neutro gris
+  &--ghost {
+    background-color: #eeeeee;
+    color: var(--dark-text);
+
+    &:hover:not(:disabled) {
+      background-color: #dddddd;
+    }
+  }
+}
+
+// ── Badge de tipo Pokémon ─────────────────────────────────────
+.type-badge {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: white;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}

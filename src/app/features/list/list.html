@@ -1,0 +1,66 @@
+<div class="container">
+  <h1 class="page-title">Listado completo</h1>
+
+  <!-- Indicador de página y total -->
+  @if (!isLoading() && !hasError()) {
+    <div class="list-info">
+      <span>
+        Mostrando
+        <strong>{{ currentPage() * PAGE_SIZE + 1 }}–{{ currentPage() * PAGE_SIZE + pokemons().length }}</strong>
+        de <strong>{{ totalCount() }}</strong> Pokémon
+      </span>
+      <span class="list-info__page">Página {{ currentPage() + 1 }} de {{ totalPages() }}</span>
+    </div>
+  }
+
+  @if (isLoading()) {
+    <div class="spinner"></div>
+  } @else if (hasError()) {
+    <div class="error-msg">
+      <p>Error al cargar el listado.</p>
+      <button class="btn btn--primary" (click)="loadPage(currentPage())">
+        Reintentar
+      </button>
+    </div>
+  } @else {
+    <!-- Tabla de Pokémon: muestra ID y nombre (requisito de la práctica) -->
+    <div class="pokemon-list">
+      <!--
+        @for con track: Angular usa el campo 'url' como clave única
+        para optimizar las actualizaciones del DOM al paginar.
+      -->
+      @for (pokemon of pokemons(); track pokemon.url) {
+        <a
+          class="pokemon-list__item"
+          [routerLink]="['/detail', getIdFromUrl(pokemon.url)]"
+        >
+          <span class="pokemon-list__id">
+            {{ formatId(getIdFromUrl(pokemon.url)) }}
+          </span>
+          <!-- titlecase pipe: 'bulbasaur' → 'Bulbasaur' -->
+          <span class="pokemon-list__name">{{ pokemon.name | titlecase }}</span>
+          <span class="pokemon-list__arrow">→</span>
+        </a>
+      }
+    </div>
+
+    <!-- ── Controles de paginación ──────────────────────────────── -->
+    <div class="pagination">
+      <!--
+        [disabled]: deshabilita el botón si no hay página anterior.
+        hasPrev() es un Signal computed que depende de currentPage().
+      -->
+      <button class="btn btn--ghost" (click)="prevPage()" [disabled]="!hasPrev()">
+        ← Anterior
+      </button>
+
+      <span class="pagination__info">
+        {{ currentPage() + 1 }} / {{ totalPages() }}
+      </span>
+
+      <button class="btn btn--ghost" (click)="nextPage()" [disabled]="!hasNext()">
+        Siguiente →
+      </button>
+    </div>
+  }
+</div>

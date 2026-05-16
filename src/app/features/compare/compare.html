@@ -1,0 +1,154 @@
+<div class="container">
+  <h1 class="page-title">Comparador ★</h1>
+  <p class="compare-subtitle">Busca dos Pokémon para comparar sus estadísticas</p>
+
+  <!-- ── Dos columnas de búsqueda ──────────────────────────────── -->
+  <div class="compare-grid">
+
+    <!-- Slot A -->
+    <div class="slot">
+      <h2 class="slot__label slot__label--a">Pokémon A</h2>
+      <form class="slot__form" (ngSubmit)="loadPokemonA()">
+        <input
+          class="slot__input"
+          type="text"
+          placeholder="ej: pikachu"
+          [(ngModel)]="searchA"
+          name="searchA"
+          autocomplete="off"
+        />
+        <button class="btn btn--primary" type="submit" [disabled]="loadingA()">
+          Cargar
+        </button>
+      </form>
+
+      @if (loadingA()) {
+        <div class="spinner"></div>
+      }
+      @if (errorA()) {
+        <p class="error-msg">{{ errorA() }}</p>
+      }
+
+      @if (pokemonA()) {
+        <div class="slot__card" [style.border-color]="getTypeColor(pokemonA()!)">
+          <img
+            class="slot__img"
+            [src]="getImageUrl(pokemonA()!)"
+            [alt]="pokemonA()!.name"
+          />
+          <h3 class="slot__name">{{ pokemonA()!.name | titlecase }}</h3>
+          <div class="slot__types">
+            @for (t of pokemonA()!.types; track t.slot) {
+              <span class="type-badge" [style.background-color]="getTypeColor(pokemonA()!)">
+                {{ t.type.name }}
+              </span>
+            }
+          </div>
+          <a [routerLink]="['/detail', pokemonA()!.id]" class="slot__detail-link">
+            Ver detalle →
+          </a>
+        </div>
+      }
+    </div>
+
+    <!-- VS central (solo visible cuando los dos están cargados) -->
+    @if (pokemonA() && pokemonB()) {
+      <div class="vs-badge">VS</div>
+    } @else {
+      <div class="vs-placeholder">VS</div>
+    }
+
+    <!-- Slot B -->
+    <div class="slot">
+      <h2 class="slot__label slot__label--b">Pokémon B</h2>
+      <form class="slot__form" (ngSubmit)="loadPokemonB()">
+        <input
+          class="slot__input"
+          type="text"
+          placeholder="ej: charizard"
+          [(ngModel)]="searchB"
+          name="searchB"
+          autocomplete="off"
+        />
+        <button class="btn btn--primary" type="submit" [disabled]="loadingB()">
+          Cargar
+        </button>
+      </form>
+
+      @if (loadingB()) {
+        <div class="spinner"></div>
+      }
+      @if (errorB()) {
+        <p class="error-msg">{{ errorB() }}</p>
+      }
+
+      @if (pokemonB()) {
+        <div class="slot__card" [style.border-color]="getTypeColor(pokemonB()!)">
+          <img
+            class="slot__img"
+            [src]="getImageUrl(pokemonB()!)"
+            [alt]="pokemonB()!.name"
+          />
+          <h3 class="slot__name">{{ pokemonB()!.name | titlecase }}</h3>
+          <div class="slot__types">
+            @for (t of pokemonB()!.types; track t.slot) {
+              <span class="type-badge" [style.background-color]="getTypeColor(pokemonB()!)">
+                {{ t.type.name }}
+              </span>
+            }
+          </div>
+          <a [routerLink]="['/detail', pokemonB()!.id]" class="slot__detail-link">
+            Ver detalle →
+          </a>
+        </div>
+      }
+    </div>
+  </div><!-- /compare-grid -->
+
+  <!-- ── Tabla comparativa de stats (solo cuando los dos están cargados) ── -->
+  @if (pokemonA() && pokemonB()) {
+    <div class="stats-comparison">
+      <h2 class="stats-comparison__title">Comparativa de estadísticas</h2>
+
+      @for (statName of STAT_NAMES; track statName) {
+        <div class="stat-compare-row" [class]="'winner-' + getWinner(statName)">
+
+          <!-- Stat del Pokémon A -->
+          <div class="stat-compare-row__side stat-compare-row__side--a">
+            <span class="stat-compare-row__value">
+              {{ getStat(pokemonA()!, statName) }}
+            </span>
+            <div class="stat-bar stat-bar--reversed">
+              <div
+                class="stat-bar__fill"
+                [style.width.%]="statPercent(getStat(pokemonA()!, statName))"
+                [style.background-color]="getTypeColor(pokemonA()!)"
+              ></div>
+            </div>
+          </div>
+
+          <!-- Nombre de la stat -->
+          <div class="stat-compare-row__label">
+            {{ formatStatName(statName) }}
+          </div>
+
+          <!-- Stat del Pokémon B -->
+          <div class="stat-compare-row__side stat-compare-row__side--b">
+            <div class="stat-bar">
+              <div
+                class="stat-bar__fill"
+                [style.width.%]="statPercent(getStat(pokemonB()!, statName))"
+                [style.background-color]="getTypeColor(pokemonB()!)"
+              ></div>
+            </div>
+            <span class="stat-compare-row__value">
+              {{ getStat(pokemonB()!, statName) }}
+            </span>
+          </div>
+
+        </div>
+      }
+    </div>
+  }
+
+</div>

@@ -1,0 +1,83 @@
+// Navbar: barra de navegación principal con estética Pokédex roja
+.navbar {
+  background-color: var(--red);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 64px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+  // sticky: el navbar se queda pegado arriba al hacer scroll
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 4px solid var(--dark-red);
+
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  // Círculo decorativo que imita el botón central de la Pokédex
+  &__pokeball {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(180deg, white 50%, #333 50%);
+    border: 3px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+  }
+
+  &__dot {
+    width: 10px;
+    height: 10px;
+    background: white;
+    border-radius: 50%;
+    border: 2px solid #333;
+  }
+
+  &__title {
+    font-size: 1.1rem;
+    font-weight: 900;
+    letter-spacing: 4px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+  }
+
+  &__links {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  &__link {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: background-color 0.2s, color 0.2s;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+      color: white;
+    }
+
+    // routerLinkActive añade esta clase CSS cuando la ruta está activa
+    &.is-active {
+      background-color: rgba(255, 255, 255, 0.25);
+      color: white;
+      font-weight: 700;
+    }
+  }
+}
+
+.main-content {
+  min-height: calc(100vh - 64px);
+}
