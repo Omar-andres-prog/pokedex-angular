@@ -1,59 +1,76 @@
-# Pokedex
+# Pokédex con Angular
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.2.
+Práctica de Desarrollo Web en Entorno Cliente - 2º DAW  
+EFA El Campico
 
-## Development server
+---
 
-To start a local development server, run:
+## ¿Qué es esto?
+
+Una Pokédex hecha con Angular que usa la PokéAPI para mostrar información de los Pokémon.  
+Es una práctica del módulo de Desarrollo Web en Entorno Cliente donde he aplicado routing, peticiones HTTP, servicios y otras cosas de Angular.
+
+---
+
+## ¿Qué tiene la aplicación?
+
+- **Dashboard**: muestra 10 Pokémon aleatorios cada vez que entras o recargas
+- **Buscador**: puedes buscar cualquier Pokémon por su nombre desde el dashboard
+- **Listado**: lista todos los Pokémon de 20 en 20 con botones para pasar de página
+- **Detalle**: al hacer clic en un Pokémon ves su imagen, tipos, estadísticas, altura, peso y habilidades
+- **Comparador**: puedes comparar las estadísticas de dos Pokémon (punto extra)
+
+---
+
+## Tecnologías usadas
+
+- Angular 21
+- TypeScript
+- SCSS
+- RxJS
+- PokéAPI (https://pokeapi.co/)
+
+---
+
+## Cómo ejecutarlo
+
+Necesitas tener instalado Node.js y Angular CLI.
 
 ```bash
+# Clonar el repositorio
+git clone https://github.com/omar-andres-prog/pokedex-angular.git
+cd pokedex-angular
+
+# Instalar las dependencias
+npm install
+
+# Arrancar la aplicación
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Luego abres el navegador en http://localhost:4200
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Estructura de carpetas
 
-```bash
-ng generate component component-name
+```
+src/app/
+├── core/
+│   ├── models/       → interfaces TypeScript para tipar la API
+│   └── services/     → servicio con todas las llamadas HTTP
+├── features/
+│   ├── dashboard/    → página principal con aleatorios y búsqueda
+│   ├── list/         → listado paginado
+│   ├── detail/       → detalle de cada Pokémon
+│   └── compare/      → comparador de dos Pokémon
+└── shared/
+    └── pokemon-card/ → tarjeta reutilizable
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
-```
+## API
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+He usado la PokéAPI que es gratuita y no necesita registro ni API key.  
+Documentación: https://pokeapi.co/docs/v2
